@@ -1,0 +1,28 @@
+SELECT
+  S.event_id,
+  S.Datetime AS 'UTC_date',
+  user_id,
+  is_imp,
+  is_conv,
+  geo_region,
+  creative_id,
+  V.viewable,
+  max(V.view_surface),
+  sum(V.view_iab_duration)
+FROM
+  Standard_feed S
+JOIN Viewability_feed V ON S.event_id = V.event_id
+  AND S.Datetime = V.Datetime
+WHERE
+  S.Campaign_id = 846541
+  AND S.Conversion_id = 'ABC123'
+  AND V.view_measurable = 1
+GROUP BY
+  event_id,
+  Datetime,
+  user_id,
+  is_imp,
+  is_conv,
+  geo_region,
+  creative_id,
+  V.Viewable;

@@ -1,0 +1,19 @@
+SELECT
+  max(Imp) as 'Max',
+  min(nullif(Imp, 0)) as 'Min',
+  avg(Imp) as 'Average'
+FROM
+   (SELECT
+      datepart(month,Datetime) as Month,
+      datepart(week,Datetime) as Week,
+      datepart(day,Datetime) as Day,
+      datepart(hour,Datetime) as Hour,
+      user_id,
+      sum(is_imp) as Imp
+    FROM
+      standard_feed
+    GROUP BY Month,
+      Week,
+      Day,
+      Hour,
+      user_id) AS Impressions;
